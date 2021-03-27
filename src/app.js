@@ -1,6 +1,8 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-
+const config = require('config/service');
+const validationError = require('middlewares/validationError');
+const internalServerError = require('middlewares/internalServerError');
 const routes = require('routes');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -8,11 +10,14 @@ app.use(bodyParser.json());
 app.use(routes);
 
 // validation error handler
-app.use((err, req, res, next) => {
-  if (err.isBoom) {
-    return res.status(err.output.statusCode).json(err.output.payload);
-  }
-});
+app.use(validationError);
 
-const port = 3000;
-app.listen(port, () => console.log(`App is running on port ${port}`));
+// internal server error handler
+app.use(internalServerError);
+
+// Don't start server in case of test env
+if (config.env !== 'test') {
+  app.listen(+config.port, () => console.log(`App is running on port ${config.port}`));
+}
+
+module.exports = app;

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const timeSeries = require('./timeSeries');
+const timeSeries = require('routes/api/alphavantage/timeSeries');
 
 router.use('/time-series', timeSeries);
 

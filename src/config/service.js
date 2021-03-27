@@ -1,5 +1,5 @@
-const config = require('./variables');
-const serviceSchema = require('./schemas/service');
+const config = require('config/variables');
+const serviceSchema = require('config/schemas/service');
 
 const validate = serviceSchema.validate(config);
 

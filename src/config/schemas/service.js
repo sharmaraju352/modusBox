@@ -1,5 +1,5 @@
 const joi = require('@hapi/joi');
-const defaultSchema = require('./default');
+const defaultSchema = require('config/schemas/default');
 
 const serviceSchema = defaultSchema.append({
   NODE_ENV: joi.string().valid('test', 'development', 'production').default('development'),

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const alphavantage = require('./alphavantage');
+const alphavantage = require('routes/api/alphavantage');
 
 router.use('/alphavantage', alphavantage);
 

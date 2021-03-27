@@ -2,6 +2,7 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const config = require('config/service');
 const swaggerUi = require('swagger-ui-express');
+const helmet = require('helmet');
 const validationError = require('middlewares/validationError');
 const internalServerError = require('middlewares/internalServerError');
 const routes = require('routes');
@@ -9,6 +10,9 @@ const swaggerDocument = require('../swagger.json');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// helmet to avoid common attacks
+app.use(helmet());
 
 // swagger endpoint
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

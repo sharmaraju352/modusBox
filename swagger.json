@@ -1,0 +1,129 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "ModusBox NodeJS Assignment",
+    "description": "This API returns stock ticker prices",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Server"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["System"],
+        "summary": "health check endpoint",
+        "responses": {
+          "200": {
+            "description": "Health check response with current date",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/modus-box/v1/alphavantage/time-series": {
+      "post": {
+        "tags": ["Stock Ticker API"],
+        "summary": "Stock ticker API",
+        "description": "This API returns stock ticker prices of specified stocks",
+        "requestBody": {
+          "description": "Stock Ticker Request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/StockTickerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/StockTickerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/BadRequestError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "StockTickerRequest": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Stock Name",
+        "required": true,
+        "example": "GOOGL"
+      }
+    },
+    "StockTickerResponse": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stock": {
+            "type": "string",
+            "example": "GOOGL"
+          },
+          "price": {
+            "type": "string",
+            "example": "508.0500"
+          }
+        }
+      }
+    },
+    "BadRequestError": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 400
+        },
+        "error": {
+          "type": "string",
+          "example": "Bad Request"
+        },
+        "message": {
+          "type": "string",
+          "example": "stock is not allowed to be empty"
+        }
+      }
+    }
+  }
+}

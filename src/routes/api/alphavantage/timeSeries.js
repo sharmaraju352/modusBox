@@ -6,9 +6,11 @@ const constants = require('constantsApp');
 const validationSchema = require('validation/schema');
 
 router.post('/', validate(validationSchema.timeSeries), (req, res) => {
+  req.log.debug('Fetch time series for ', req.body);
   Promise.all(req.body.map((stock) => getTimeSeries(stock)))
     .then((timeSeries) => {
       const stockClosePrices = timeSeries.map(({ data }) => getStockClosePrice(data));
+      req.log.debug('Time series response: ', stockClosePrices);
       res.json(stockClosePrices);
     })
     .catch((err) => {

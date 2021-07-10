@@ -11,7 +11,9 @@ describe('timeSeries', () => {
 
   describe('route', () => {
     it(`should throw 400 if invalid body passed`, async () => {
-      const response = await server.post(`${config.baseApiUrl}/alphavantage/time-series`).send([]).expect(400);
+      // const response = await server.post(`${config.baseApiUrl}/alphavantage/time-series`).send([]).expect(400);
+      // Breaking intentionally to show code will not merge
+      const response = await server.post(`${config.baseApiUrl}/alphavantage/time-series`).send([]).expect(500);
       expect(response.body.error).toEqual('Bad Request');
     });
 

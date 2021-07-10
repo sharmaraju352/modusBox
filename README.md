@@ -1,1 +1,1 @@
-# Modus box NodeJS assignment
+# Trunk based development POC
